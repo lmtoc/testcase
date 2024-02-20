@@ -31,8 +31,38 @@ public class LC6 {
         return res.toString();
     }
 
+    public static String convert2(String s, int numRows) {
+        if(numRows == 1){
+            return s;
+        }
+        //根据题目，numsRow行数固定
+        //接下来找规律 每一个字符在哪一行其实已经根据一个条件约定了：
+        //从0往下的是单个的，但是从底部往上的字符要往上的句子之后添加
+        List<StringBuilder> result = new ArrayList(numRows);
+        for(int i = 0;i<numRows;i++){
+            result.add(new StringBuilder());
+        }
+        int flag = -1;//flag代表是否往下走,正数就是往下递增
+        int i = 0;
+        int row = 0;
+        while(i < s.length()){
+            char currentChar = s.charAt(i);
+            result.get(row).append(currentChar);
+            if(row == numRows - 1 || row == 0){
+                flag = -flag;
+            }
+            i++;
+            row = row+flag;
+        }
+
+        for(int j = 0;j<numRows;j++){
+            result.get(1).append(result.get(j));
+        }
+        return result.get(1).toString();
+    }
+
 
     public static void main(String [] args){
-        System.out.println(convert("AB",1));
+        System.out.println(convert2("PAYPALISHIRING",4));
     }
 }
